@@ -98,8 +98,9 @@ function App() {
 
     return (
         <div className="main">
-            <div style={startGame ? {display:'none'} : {display:"block"}}>
-                <div>Select Category :
+            <div className={'setting'} style={startGame ? {display: 'none'} : {display: "flex"}}>
+                <div>
+                    <p>Select Category :</p>
                     <select name="trivia_category" className="form-control" onChange={selectCategory}>
                         <option value="any">Any Category</option>
                         <option value="9">General Knowledge</option>
@@ -128,13 +129,17 @@ function App() {
                         <option value="32">Entertainment: Cartoon &amp; Animations</option>
                     </select>
                 </div>
+                <div>
+                    <p>Select Difficult :</p>
                     <select onChange={selectDifficult} name="trivia_difficulty" className="form-control">
-                        <option  value="any">Any Difficulty</option >
+                        <option value="any">Any Difficulty</option>
                         <option value="easy">Easy</option>
                         <option value="medium">Medium</option>
                         <option value="hard">Hard</option>
                     </select>
-                <div>Number of Questions
+                </div>
+                <div>
+                    <p>Number of Questions:</p>
                     <input onChange={changeNumberOfQuestions} value={numberOfQuestions} type="number" min={1}/>
                 </div>
                 <button onClick={() => getQuestions()}>Begin</button>
