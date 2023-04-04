@@ -20,8 +20,8 @@ const QuestionCard: React.FC<QuestionCardPropsType> = ({question, nextQuestion, 
                 <h2>{question.question}</h2>
                 <ul>
                     {
-                        question.answers.map((el, index) =>
-                            <li className={'question'} key={el} onClick={() => nextQuestion(index)}>{el}</li>
+                        question.answers.map((el) =>
+                            <li className={'question'} key={el.id} onClick={() => nextQuestion(el.id)}>{el.answer}</li>
                         )
                     }
                 </ul>
