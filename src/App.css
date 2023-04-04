@@ -1,0 +1,10 @@
+.bar {
+    height: 5px;
+    background-color: red;
+}
+
+.card {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+}
