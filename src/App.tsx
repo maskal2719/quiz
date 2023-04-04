@@ -41,9 +41,9 @@ function App() {
     }
 
     return (
-        <div className="App">
+        <div className="main">
             {
-                step !== questions.length ? <QuestionCard question={question} nextQuestion={nextQuestion} questions={questions} step={step}/> : <Result/>
+                step !== questions.length ? <QuestionCard question={question} nextQuestion={nextQuestion} questions={questions} step={step}/> : <Result answer={answer}/>
             }
         </div>
     );

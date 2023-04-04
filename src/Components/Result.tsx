@@ -1,9 +1,13 @@
 import React from 'react';
 
-const Result = () => {
+type ResultPropsType = {
+    answer: number
+}
+
+const Result: React.FC<ResultPropsType> = ({answer}) => {
     return (
-        <div>
-            
+        <div className={'card'}>
+            Вы ответили верно на {answer} вопросов
         </div>
     );
 };
