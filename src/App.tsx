@@ -3,10 +3,6 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import './App.css';
 import QuestionCard from "./Components/QuestionCard";
 import Result from "./Components/Result";
-import Select from "@mui/material/Select";
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
 
 export type Question = {
     question: string
@@ -17,12 +13,10 @@ export type Answer = {
     id: number
     answer: string
 }
-
 export interface ResponseType {
     response_code: number;
     results: Result[];
 }
-
 export interface Result {
     category: Category;
     type: Type;
@@ -32,29 +26,25 @@ export interface Result {
     incorrect_answers: string[];
     answers?: string[]
 }
-
 export enum Category {
     Art = "Art",
 }
-
 export enum Difficulty {
     Easy = "easy",
     Hard = "hard",
     Medium = "medium",
 }
-
 export enum Type {
     Boolean = "boolean",
     Multiple = "multiple",
 }
-
 function App() {
 
     const [questions, setQuestions] = useState<Result[] | null>([])
     const [category, setCategory] = useState(9)
     const [numberOfQuestions, setnumberOfQuestions] = useState<number>(5)
     const [difficult, setDifficult] = useState<string>('easy')
-    const [step, setStep] = useState(0)
+    const [step, setStep] = useState(1)
     const [answer, setAnswer] = useState(0)
     const [startGame, setStartGame] = useState<boolean>(false)
     const question = questions![step]
@@ -70,7 +60,7 @@ function App() {
         setStartGame(true)
     }
 
-    useEffect(getQuestions, [])
+
 
     const selectCategory = (e: ChangeEvent<HTMLSelectElement>) => {
         setCategory(+e.currentTarget.value)
@@ -90,15 +80,14 @@ function App() {
     }
     const reset = () => {
         setCategory(1)
-        setStep(0)
+        setStep(1)
         setAnswer(0)
         setStartGame(false)
     }
 
-
     return (
         <div className="main">
-            <div className={'setting'} style={startGame ? {display: 'none'} : {display: "flex"}}>
+            <div className={'setting'} style={startGame ? {display: "none"} : {display: "flex"}}>
                 <div>
                     <p>Select Category :</p>
                     <select name="trivia_category" className="form-control" onChange={selectCategory}>
@@ -145,11 +134,15 @@ function App() {
                 <button onClick={() => getQuestions()}>Begin</button>
             </div>
             {
-                step !== questions?.length ?
+                startGame &&
                     <QuestionCard question={question!} nextQuestion={nextQuestion} questions={questions!}
-                                  step={step}/> : <Result answer={answer} reset={reset}/>
+                                  step={step}/>
             }
-            {/*<div>Choose a category, difficulty and number of questions</div>*/}
+
+            {
+                questions?.length === step && <Result answer={answer} reset={reset}/>
+            }
+
         </div>
     );
 }
