@@ -1,27 +1,27 @@
 import React from 'react';
-import {Question} from "../App";
+import {Question, Result} from "../App";
 
 type QuestionCardPropsType = {
-    question: Question
+    question: Result
     nextQuestion: (index: number) => void
-    questions: Question[]
+    questions: Result[]
     step: number
 }
 
 const QuestionCard: React.FC<QuestionCardPropsType> = ({question, nextQuestion, questions, step}) => {
 
-    const progress = Math.round((step / questions.length) * 100)
+    // const progress = Math.round((step / questions?.length) * 100)
 
     return (
         <div className={'card'}>
-            <div style={{width: `${progress}%`}} className={'bar'}></div>
-            <div>Вопрос номер {step + 1} из {questions.length}</div>
+            <div  className={'bar'}></div>
+            {/*<div>Вопрос номер {step + 1} из {questions.length}</div>*/}
             <div className={'questions'}>
-                <h2>{question.question}</h2>
+                <h2>{question?.question}</h2>
                 <ul>
                     {
-                        question.answers.map((el) =>
-                            <li className={'question'} key={el.id} onClick={() => nextQuestion(el.id)}>{el.answer}</li>
+                        question?.incorrect_answers?.map((el,index) =>
+                            <li className={'question'}  onClick={() => nextQuestion(index)}>{el}</li>
                         )
                     }
                 </ul>

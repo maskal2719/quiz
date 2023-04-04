@@ -3,6 +3,7 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import './App.css';
 import QuestionCard from "./Components/QuestionCard";
 import Result from "./Components/Result";
+import {log} from "util";
 
 export type Question = {
     question: string
@@ -45,35 +46,21 @@ export enum Type {
 
 function App() {
 
-    const [questions, setQuestions] = useState<Result[] | null>(null)
-    const [category, setCategory] = useState('25')
+    const [questions, setQuestions] = useState<ResponseType | null>(null)
+    const [category, setCategory] = useState('any')
     const [numberOfQuestions, setnumberOfQuestions] = useState(10)
     const [difficult, setDifficult] = useState('any')
 
     const getQuestions = () => {
         axios.get<ResponseType>(`https://opentdb.com/api.php?amount=${numberOfQuestions}&category=${category}&difficulty=${difficult}`)
             .then(resp => {
-                setQuestions(resp.data.results)
+                setQuestions(resp.data)
             })
+
+
     }
 
     useEffect(getQuestions, [])
-
-
-    console.log(questions)
-
-
-    const [step, setStep] = useState(0)
-    const [answer, setAnswer] = useState(0)
-    // const question = questions[step]
-
-    // const nextQuestion = (id: number) => {
-    //     setStep(step + 1)
-    //     if (id === question.correct_answer) {
-    //         setAnswer(answer + 1)
-    //     }
-    // }
-
 
     const selectCategory = (e: ChangeEvent<HTMLSelectElement>) => {
         setCategory(e.currentTarget.value)
@@ -86,6 +73,23 @@ function App() {
         setnumberOfQuestions(+e.currentTarget.value)
         console.log(+e.currentTarget.value)
     }
+
+
+    console.log(questions)
+
+
+    const [step, setStep] = useState(0)
+    const [answer, setAnswer] = useState(0)
+    const question = questions?.results[step]
+
+    console.log(question)
+
+    const nextQuestion = (id: number) => {
+        setStep(step + 1)
+    }
+
+
+
 
     return (
         <div className="main">
@@ -132,9 +136,9 @@ function App() {
             <button onClick={() => getQuestions()}>Begin</button>
             {
                 // questionss === null ? 'loading...' : questionss.map(el => <li>{el.question}</li>)
-                // step !== questions.length ?
-                //     <QuestionCard question={question} nextQuestion={nextQuestion} questions={questions} step={step}/> :
-                //     <Result answer={answer}/>
+                step !== questions?.results?.length ?
+                    <QuestionCard question={question!} nextQuestion={nextQuestion} questions={questions?.results!} step={step}/> :
+                    <Result answer={answer}/>
             }
         </div>
     );
